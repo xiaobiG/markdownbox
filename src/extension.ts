@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+const os = require("os");
 const fs = require("fs");
 const path = require("path");
 let createStatusBarItem: vscode.StatusBarItem;
@@ -79,7 +80,9 @@ function renameMdFiles() {
                 path.extname(filePath) === ".md"
             ) {
                 const fileContent = fs.readFileSync(filePath, "utf-8");
-                const lines = fileContent.split("\n");
+                // const lines = fileContent.split("\n");
+                // https://github.com/microsoft/vscode/issues/127455
+                const lines = fileContent.split(os.EOL); // 使用正确的行终止符
 
                 if (lines.length > 0 && lines[0].startsWith("# ")) {
                     const title = lines[0].substring(2).trim();
